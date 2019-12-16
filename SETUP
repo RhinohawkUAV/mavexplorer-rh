@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# /c/Users/tcm/Dropbox/projects/RhinoHawkUAVTeam/MedicalExpress2018/testing/2018-03-15_pallet_flight_hover_tether/00000001.BIN
+# INSTALL - Does these actions: 
+# - Install XML graphs file that gets imported to Graphs menu in MAVExplorer.
+# - Creates Start-MAVExplorer.sh with startup expression.
+
+# Copy XML to ~/.mavproxy/
+cp ./RhinoHawk_MavexplorerGraphs.xml ~/.mavproxy/
+echo "Copied graphs XML to ~/.mavproxy/."
+
+# Create Start-MAVExplorer.sh
+read -r -p 'Enter the FULL PATH to a log file >>> ' logFilePath
+[ -z "$logFilePath" ]  && logFilePath="<LOG_FILE_PATH>" || continue
+
+echo "#!/bin/bash
+# Run MAVExplorer with certain options
+# Comma marker shows nothing at vertices.
+# Hide the flight mode to make graph easier to read.
+python27 ./MAVExplorer.py $logFilePath \"set marker ,;set show_flightmode False;\"
+" > Start-MAVExplorer.sh
+
+echo "Created 'Start-MAVExplorer.sh', check that the correct python 2.7 command is used." 
